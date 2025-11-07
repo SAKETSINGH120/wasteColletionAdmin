@@ -236,25 +236,27 @@ export default function PlatformSettingList() {
         <Breaker />
       </div>
       <div className="flex justify-between items-center mb-8">
-        <div className="flex items-center gap-4">
-          <input
-            type="text"
-            placeholder="Search platform settings..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-80 px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
-            aria-label="Search platform settings"
-          />
-          <button
-            onClick={() => {
-              setSearchQuery(search);
-              setPage(1);
-            }}
-            className="bg-gradient-to-t from-[#45d85e] to-[#1F4926] text-white px-5 py-2.5 rounded-lg font-medium"
-          >
-            Search
-          </button>
-        </div>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setSearchQuery(search);
+            setPage(1);
+          }}
+        >
+          <div className="flex items-center gap-4">
+            <input
+              type="text"
+              placeholder="Search platform settings..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-80 px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+              aria-label="Search platform settings"
+            />
+            <button className="bg-gradient-to-t from-[#45d85e] to-[#1F4926] text-white px-5 py-2.5 rounded-lg font-medium">
+              Search
+            </button>
+          </div>
+        </form>
         <div className="flex gap-4">
           <motion.button
             whileTap={{ scale: 0.95 }}

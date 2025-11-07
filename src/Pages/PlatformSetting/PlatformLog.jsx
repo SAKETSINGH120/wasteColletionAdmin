@@ -193,25 +193,27 @@ export default function PlatformSettingLog() {
     <div className="p-6 bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen">
       <Breaker />
       <div className="flex justify-between items-center mb-8">
-        <div className="flex items-center gap-4">
-          <input
-            type="text"
-            placeholder="Search platform setting logs..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-80 px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
-            aria-label="Search platform setting logs"
-          />
-          <button
-            onClick={() => {
-              setSearchQuery(search);
-              setPage(1);
-            }}
-            className="bg-gradient-to-r from-[#45d85e] to-[#1F4926] text-white px-5 py-2.5 rounded-lg font-medium hover:from-[#3cc752] hover:to-[#1a3b20] transition-all duration-300"
-          >
-            Search
-          </button>
-        </div>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setSearchQuery(search);
+            setPage(1);
+          }}
+        >
+          <div className="flex items-center gap-4">
+            <input
+              type="text"
+              placeholder="Search platform setting logs..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-80 px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+              aria-label="Search platform setting logs"
+            />
+            <button className="bg-gradient-to-r from-[#45d85e] to-[#1F4926] text-white px-5 py-2.5 rounded-lg font-medium hover:from-[#3cc752] hover:to-[#1a3b20] transition-all duration-300">
+              Search
+            </button>
+          </div>
+        </form>
         <motion.button
           whileTap={{ scale: 0.95 }}
           onClick={() => exportFunc(data)}

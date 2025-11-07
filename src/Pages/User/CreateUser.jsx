@@ -81,7 +81,7 @@ const CreateUser = () => {
 
   return (
     <div className="">
-      <div className="bg-white p-6 max-w-9xl rounded-xl shadow-xl">
+      <div className="bg-white p-6 max-w-9xl rounded-xl shadow-xl flex">
         <form onSubmit={handleSubmit}>
           {/* Name */}
           <label className="ml-2 mt-4 font-normal block">Name:</label>

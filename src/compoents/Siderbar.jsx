@@ -379,9 +379,9 @@ const Sidebar = () => {
                         onClick={() => handleMenuClick(index)}
                       >
                         <div className="flex items-center gap-3">
-                          {/* <div>
+                          <div>
                             {React.createElement(menu.icon, { size: "20" })}
-                          </div> */}
+                          </div>
                           <h2
                             style={{ transitionDelay: `${index + 3}00ms` }}
                             className={`whitespace-pre duration-500 ${
@@ -416,7 +416,7 @@ const Sidebar = () => {
                         className={`group flex items-center text-sm gap-3.5 font-medium p-2 rounded-md ${
                           activeMenu === index
                             ? "bg-[#1F4926]"
-                            : "hover:bg-[#1F4926]"
+                            : "hover:bg-[#ffff]"
                         }`}
                         onClick={() => setActiveMenu(index)}
                       >

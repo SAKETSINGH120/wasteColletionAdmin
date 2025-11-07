@@ -133,30 +133,38 @@ export default function UserLog() {
 
       {/* Header Controls */}
       <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-3">
-          <TextField
-            size="small"
-            placeholder="Search user logs..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-80 bg-white"
-          />
-          <Button
-            variant="contained"
-            onClick={() => {
-              setSearchQuery(search);
-              setPage(1);
-            }}
-            sx={{
-              background: "linear-gradient(to right, #45d85e, #1F4926)",
-              "&:hover": {
-                background: "linear-gradient(to right, #3cc752, #1a3b20)",
-              },
-            }}
-          >
-            Search
-          </Button>
-        </div>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setSearchQuery(search);
+            setPage(1);
+          }}
+        >
+          <div className="flex items-center gap-3">
+            <TextField
+              size="small"
+              placeholder="Search user logs..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-80 bg-white"
+            />
+            <Button
+              variant="contained"
+              onClick={() => {
+                setSearchQuery(search);
+                setPage(1);
+              }}
+              sx={{
+                background: "linear-gradient(to right, #45d85e, #1F4926)",
+                "&:hover": {
+                  background: "linear-gradient(to right, #3cc752, #1a3b20)",
+                },
+              }}
+            >
+              Search
+            </Button>
+          </div>
+        </form>
 
         <motion.div whileTap={{ scale: 0.95 }}>
           <Button
