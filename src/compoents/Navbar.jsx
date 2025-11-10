@@ -8,7 +8,7 @@ const Navbar = () => {
       <div className="flex">
         <div className="  ">
           <h1 className="sm:text-sm md:text-lg lg:text-2xl xl:text-3xl  font-bold italic flex text-white text-center mt-4 pb-3   tracking-wide">
-            Hello{" "}
+            Hello
             <h1 className="pl-1 text-emerald-300 sm:text-sm md:text-lg lg:text-2xl xl:text-3xl">
               Waste Collection
             </h1>

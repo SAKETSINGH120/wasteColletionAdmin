@@ -5,11 +5,11 @@ import Navbar from "../compoents/Navbar";
 
 const Layout = () => {
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen overflow-hidden">
       <Siderbar></Siderbar>
-      <div className="flex flex-col flex-1 pl-1 ">
+      <div className="flex flex-col flex-1">
         <Navbar></Navbar>
-        <main className="p-4 sidebar-scroll overflow-auto flex-1 bg-gray-100">
+        <main className="p-4 flex-1 bg-gray-100 overflow-y-auto">
           <Outlet />
         </main>
       </div>

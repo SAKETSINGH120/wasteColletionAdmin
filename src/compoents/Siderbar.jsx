@@ -163,44 +163,44 @@ const Sidebar = () => {
         {/* Sidebar */}
         <aside
           className={`sidebar-gradient h-screen shadow-lg
-          ${
-            open ? "w-[260px]" : "w-16"
-          } duration-500 text-white flex flex-col px-4`}
+          ${open ? "w-[260px]" : "w-20"} duration-500 text-white flex flex-col`}
         >
           {/* Logo */}
-          <div className="flex flex-col items-center justify-center mt-4 mb-4">
+          <div className="flex flex-col items-center justify-center mt-4 mb-4 px-4">
             <img
               src="/images/wedding-logo.png"
               className={`rounded-full transition-all duration-500 ${
                 open ? "w-28" : "w-10"
               }`}
             />
-
-            <h1
-              className={`mt-3 text-center font-bold text-lg transition-all duration-700
+            <div className="flex justify-center items-center gap-x-10">
+              <h1
+                className={`mt-3 text-center font-bold text-lg transition-all duration-700
                 ${
                   open
                     ? "opacity-100 translate-x-0"
                     : "opacity-0 -translate-x-10 hidden"
                 }
               `}
-            >
-              Waste Collection
-            </h1>
+              >
+                Waste Collection
+              </h1>
 
-            {/* Toggle Button */}
-            <HiMenuAlt3
-              size={28}
-              className="mt-4 p-1 rounded-full bg-[#1F4926] bg-opacity-80 cursor-pointer hover:scale-110 hover:bg-opacity-100 transition-all duration-200 shadow-lg"
-              onClick={() => {
-                setOpen(!open);
-                setActiveMenu(null);
-              }}
-            />
+              {/* Toggle Button */}
+
+              <HiMenuAlt3
+                size={28}
+                className="mt-4 p-1 rounded-full bg-[#1F4926] bg-opacity-80 cursor-pointer hover:scale-110 hover:bg-opacity-100 transition-all duration-200 shadow-lg"
+                onClick={() => {
+                  setOpen(!open);
+                  setActiveMenu(null);
+                }}
+              />
+            </div>
           </div>
 
           {/* Menu */}
-          <div className="flex-1 sidebar-scroll overflow-y-auto mt-4 pr-1 pb-4">
+          <div className="flex-1 sidebar-scroll overflow-y-auto mt-4 pb-4 px-4">
             {filteredMenus.map((menu, index) => (
               <div key={index}>
                 {/* Dropdown Menus */}
@@ -211,6 +211,7 @@ const Sidebar = () => {
                       onClick={() => {
                         if (!open) {
                           if (menu.subMenus && menu.subMenus.length > 0) {
+                            setActiveMenu(index);
                             navigate(menu.subMenus[0].link);
                           }
                         } else {
@@ -263,7 +264,7 @@ const Sidebar = () => {
 
                       {/* Tooltip */}
                       {!open && (
-                        <span className="absolute left-16 bg-gray-800 text-white px-3 py-2 text-sm rounded-lg opacity-0 group-hover:opacity-100 whitespace-nowrap z-50 shadow-lg transition-opacity duration-200">
+                        <span className="absolute left-16 bg-gray-800 text-white px-3 py-2 text-sm rounded-lg opacity-0 group-hover:opacity-100 whitespace-nowrap z-50 shadow-lg transition-opacity duration-200 pointer-events-none">
                           {menu.name}
                         </span>
                       )}
@@ -325,7 +326,7 @@ const Sidebar = () => {
 
                     {/* Tooltip */}
                     {!open && (
-                      <span className="absolute left-16 bg-gray-800 text-white px-3 py-2 text-sm rounded-lg opacity-0 group-hover:opacity-100 whitespace-nowrap z-50 shadow-lg transition-opacity duration-200">
+                      <span className="absolute left-16 bg-gray-800 text-white px-3 py-2 text-sm rounded-lg opacity-0 group-hover:opacity-100 whitespace-nowrap z-50 shadow-lg transition-opacity duration-200 pointer-events-none">
                         {menu.name}
                       </span>
                     )}

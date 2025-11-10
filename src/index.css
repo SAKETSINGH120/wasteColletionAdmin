@@ -1,13 +1,59 @@
 @import "tailwindcss";
 
-/* Hide all scrollbars */
+/* Hide browser scrollbar */
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+/* Simple thin rounded scrollbar */
 .sidebar-scroll {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
+  scrollbar-width: thin;
+  scrollbar-color: #45d85e transparent;
 }
 
 .sidebar-scroll::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Edge */
+  width: 10px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: #45d85e;
+  border-radius: 10px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: #2da644;
+}
+
+/* Main content scrollbar */
+main {
+  scrollbar-width: thin;
+  scrollbar-color: #45d85e transparent;
+}
+
+main::-webkit-scrollbar {
+  width: 10px;
+}
+
+main::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+main::-webkit-scrollbar-thumb {
+  background: #45d85e;
+  border-radius: 10px;
+}
+
+main::-webkit-scrollbar-thumb:hover {
+  background: #2da644;
 }
 
 /* Smooth transitions for menu items */
