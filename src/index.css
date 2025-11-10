@@ -1,25 +1,40 @@
 @import "tailwindcss";
 
-/* Fully hide scrollbar, but keep scrolling */
+/* Hide all scrollbars */
 .sidebar-scroll {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE 10+ */
-  }
-  .sidebar-scroll::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Edge */
-  }
-  .carousel .control-arrow {
-    background: rgba(0, 0, 0, 0.4);
-    border-radius: 50%;
-  }
-  
-  .carousel .control-arrow:hover {
-    background: rgba(0, 0, 0, 0.6);
-  }
-  
-  .carousel .control-next.control-arrow:before,
-  .carousel .control-prev.control-arrow:before {
-    color: white;
-    font-size: 24px;
-  }
-  
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+/* Smooth transitions for menu items */
+.menu-item {
+  transition: all 0.3s ease;
+}
+
+.menu-item:hover {
+  transform: translateX(2px);
+}
+
+/* Enhanced gradient background */
+.sidebar-gradient {
+  background: linear-gradient(180deg, #45d85e 0%, #3bc54a 50%, #1f4926 100%);
+}
+
+.carousel .control-arrow {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+}
+
+.carousel .control-arrow:hover {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.carousel .control-next.control-arrow:before,
+.carousel .control-prev.control-arrow:before {
+  color: white;
+  font-size: 24px;
+}

@@ -8,35 +8,46 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({
     token: localStorage.getItem("token") || null,
-    user: null,
+    user: JSON.parse(localStorage.getItem("user") || "null"),
   });
   const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const fetchUserProfile = async () => {
-  //     if (!auth.token) {
-  //       setAuth((prev) => ({ ...prev, user: null }));
-  //       setLoading(false);
-  //       return;
-  //     }
-  //     try {
-  //       const res = await axios.get(`${BASE_URL}/api/admin/profile`, {
-  //         headers: { Authorization: `Bearer ${auth.token}` },
-  //       });
-  //       if (res.data.status) {
-  //         setAuth((prev) => ({ ...prev, user: res.data.data.user }));
-  //       }
-  //     } catch (error) {
-  //       console.error("Failed to fetch user profile", error);
-  //       localStorage.removeItem("token");
-  //       setAuth({ token: null, user: null });
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      if (!auth.token) {
+        setAuth((prev) => ({ ...prev, user: null }));
+        localStorage.removeItem("user");
+        setLoading(false);
+        return;
+      }
 
-  //   fetchUserProfile();
-  // }, [auth.token]);
+      // If we already have user data and token, no need to fetch again
+      if (auth.user && auth.token) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await axios.get(`${BASE_URL}/api/admin/profile`, {
+          headers: { Authorization: `Bearer ${auth.token}` },
+        });
+        if (res.data.status) {
+          const userData = res.data.data.user;
+          localStorage.setItem("user", JSON.stringify(userData));
+          setAuth((prev) => ({ ...prev, user: userData }));
+        }
+      } catch (error) {
+        console.error("Failed to fetch user profile", error);
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        setAuth({ token: null, user: null });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserProfile();
+  }, [auth.token, auth.user]);
 
   const login = async ({ email, password }) => {
     try {
@@ -44,10 +55,13 @@ export const AuthProvider = ({ children }) => {
         email,
         password,
       });
-      const token = response.data.token;
+      const { token, user } = response.data;
       if (token) {
         localStorage.setItem("token", token);
-        setAuth({ token, user: null }); // profile loads in useEffect
+        if (user) {
+          localStorage.setItem("user", JSON.stringify(user));
+        }
+        setAuth({ token, user: user || null }); // profile loads in useEffect if not provided
         return { success: true };
       } else {
         throw new Error("Token not found in response");
@@ -59,6 +73,7 @@ export const AuthProvider = ({ children }) => {
   };
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setAuth({ token: null, user: null });
   };
   const hasPermission = (sectionName, action) => {

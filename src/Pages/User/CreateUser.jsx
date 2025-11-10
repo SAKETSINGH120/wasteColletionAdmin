@@ -81,124 +81,146 @@ const CreateUser = () => {
 
   return (
     <div className="">
-      <div className="bg-white p-6 max-w-9xl rounded-xl shadow-xl flex">
+      <div className="bg-white p-6 max-w-9xl rounded-xl shadow-xl">
         <form onSubmit={handleSubmit}>
-          {/* Name */}
-          <label className="ml-2 mt-4 font-normal block">Name:</label>
-          <input
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full h-10 mb-1 border rounded-xl pl-4 border-gray-500"
-            type="text"
-            placeholder="User Name"
-          />
-          {apiError.name && (
-            <p className="text-red-500 text-sm ml-2">{apiError.name}</p>
-          )}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Name */}
+            <div>
+              <label className="ml-2 mt-4 font-normal block">Name:</label>
+              <input
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full h-10 mb-1 border rounded-xl pl-4 border-gray-500"
+                type="text"
+                placeholder="User Name"
+              />
+              {apiError.name && (
+                <p className="text-red-500 text-sm ml-2">{apiError.name}</p>
+              )}
+            </div>
 
-          {/* Email */}
-          <label className="ml-2 mt-4 font-normal block">Email:</label>
-          <input
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full h-10 mb-1 border rounded-xl pl-4 border-gray-500"
-            type="email"
-            placeholder="User Email"
-          />
-          {apiError.email && (
-            <p className="text-red-500 text-sm ml-2">{apiError.email}</p>
-          )}
+            {/* Email */}
+            <div>
+              <label className="ml-2 mt-4 font-normal block">Email:</label>
+              <input
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full h-10 mb-1 border rounded-xl pl-4 border-gray-500"
+                type="email"
+                placeholder="User Email"
+              />
+              {apiError.email && (
+                <p className="text-red-500 text-sm ml-2">{apiError.email}</p>
+              )}
+            </div>
 
-          {/* Mobile */}
-          <label className="ml-2 mt-4 font-normal block">Mobile:</label>
-          <input
-            name="mobile"
-            value={formData.mobile}
-            onChange={handleChange}
-            className="w-full h-10 mb-1 border rounded-xl pl-4 border-gray-500"
-            type="text"
-            placeholder="Mobile Number"
-          />
-          {apiError.mobile && (
-            <p className="text-red-500 text-sm ml-2">{apiError.mobile}</p>
-          )}
+            {/* Mobile */}
+            <div>
+              <label className="ml-2 mt-4 font-normal block">Mobile:</label>
+              <input
+                name="mobile"
+                value={formData.mobile}
+                onChange={handleChange}
+                className="w-full h-10 mb-1 border rounded-xl pl-4 border-gray-500"
+                type="text"
+                placeholder="Mobile Number"
+              />
+              {apiError.mobile && (
+                <p className="text-red-500 text-sm ml-2">{apiError.mobile}</p>
+              )}
+            </div>
 
-          {/* Country Code */}
-          <label className="ml-2 mt-4 font-normal block">Country Code:</label>
-          <input
-            name="countryCode"
-            value={formData.countryCode}
-            onChange={handleChange}
-            className="w-full h-10 mb-1 border rounded-xl pl-4 border-gray-500"
-            type="text"
-            placeholder="Country Code (e.g., +91)"
-          />
-          {apiError.countryCode && (
-            <p className="text-red-500 text-sm ml-2">{apiError.countryCode}</p>
-          )}
+            {/* Country Code */}
+            <div>
+              <label className="ml-2 mt-4 font-normal block">
+                Country Code:
+              </label>
+              <input
+                name="countryCode"
+                value={formData.countryCode}
+                onChange={handleChange}
+                className="w-full h-10 mb-1 border rounded-xl pl-4 border-gray-500"
+                type="text"
+                placeholder="Country Code (e.g., +91)"
+              />
+              {apiError.countryCode && (
+                <p className="text-red-500 text-sm ml-2">
+                  {apiError.countryCode}
+                </p>
+              )}
+            </div>
 
-          {/* City */}
-          <label className="ml-2 mt-4 font-normal block">City:</label>
-          <input
-            name="city"
-            value={formData.city}
-            onChange={handleChange}
-            className="w-full h-10 mb-1 border rounded-xl pl-4 border-gray-500"
-            type="text"
-            placeholder="City"
-          />
-          {apiError.city && (
-            <p className="text-red-500 text-sm ml-2">{apiError.city}</p>
-          )}
+            {/* City */}
+            <div>
+              <label className="ml-2 mt-4 font-normal block">City:</label>
+              <input
+                name="city"
+                value={formData.city}
+                onChange={handleChange}
+                className="w-full h-10 mb-1 border rounded-xl pl-4 border-gray-500"
+                type="text"
+                placeholder="City"
+              />
+              {apiError.city && (
+                <p className="text-red-500 text-sm ml-2">{apiError.city}</p>
+              )}
+            </div>
 
-          {/* State */}
-          <label className="ml-2 mt-4 font-normal block">State:</label>
-          <input
-            name="state"
-            value={formData.state}
-            onChange={handleChange}
-            className="w-full h-10 mb-1 border rounded-xl pl-4 border-gray-500"
-            type="text"
-            placeholder="State"
-          />
-          {apiError.state && (
-            <p className="text-red-500 text-sm ml-2">{apiError.state}</p>
-          )}
+            {/* State */}
+            <div>
+              <label className="ml-2 mt-4 font-normal block">State:</label>
+              <input
+                name="state"
+                value={formData.state}
+                onChange={handleChange}
+                className="w-full h-10 mb-1 border rounded-xl pl-4 border-gray-500"
+                type="text"
+                placeholder="State"
+              />
+              {apiError.state && (
+                <p className="text-red-500 text-sm ml-2">{apiError.state}</p>
+              )}
+            </div>
 
-          {/* Gender */}
-          <label className="ml-2 mt-4 font-normal block">Gender:</label>
-          <select
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-            className="w-full h-10 mb-1 border rounded-xl pl-3 pr-10 py-2 border-gray-500"
-          >
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-          {apiError.gender && (
-            <p className="text-red-500 text-sm ml-2">{apiError.gender}</p>
-          )}
+            {/* Gender */}
+            <div>
+              <label className="ml-2 mt-4 font-normal block">Gender:</label>
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                className="w-full h-10 mb-1 border rounded-xl pl-3 pr-10 py-2 border-gray-500"
+              >
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+              {apiError.gender && (
+                <p className="text-red-500 text-sm ml-2">{apiError.gender}</p>
+              )}
+            </div>
 
-          {/* Status */}
-          <label className="ml-2 mt-4 font-normal block">Status:</label>
-          <select
-            name="status"
-            value={formData.status}
-            onChange={handleChange}
-            className="w-full h-10 mb-1 border rounded-xl pl-3 pr-10 py-2 border-gray-500"
-          >
-            <option value="">Select Status</option>
-            <option value={true}>Active</option>
-            <option value={false}>Inactive</option>
-          </select>
-          {apiError.status && (
-            <p className="text-red-500 text-sm ml-2">{apiError.status}</p>
-          )}
+            {/* Status */}
+            <div>
+              <label className="ml-2 mt-4 font-normal block">Status:</label>
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="w-full h-10 mb-1 border rounded-xl pl-3 pr-10 py-2 border-gray-500"
+              >
+                <option value="">Select Status</option>
+                <option value={true}>Active</option>
+                <option value={false}>Inactive</option>
+              </select>
+              {apiError.status && (
+                <p className="text-red-500 text-sm ml-2">{apiError.status}</p>
+              )}
+            </div>
+          </div>
 
           {/* Profile Image Upload */}
           <div className="flex justify-between">

@@ -255,7 +255,7 @@ export default function UserLog() {
                   <TableCell>{row.updatedAt}</TableCell>
                   <TableCell align="center">
                     <IconButton
-                      onClick={(e) => handleMenuOpen(e, row.id)}
+                      onClick={(e) => handleMenuOpen(e, row.userId)}
                       aria-label="actions"
                     >
                       <MoreVertIcon />

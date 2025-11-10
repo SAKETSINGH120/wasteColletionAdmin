@@ -49,7 +49,7 @@ const ProfileView = () => {
     try {
       setLoading(true);
       const response = await axios.patch(
-        `${BASE_URL}/api/admin/passwordUpdate`,
+        `${BASE_URL}/api/admin/updatePassword`,
         {
           currentPassword: formData.currentPassword,
           password: formData.password,
@@ -83,10 +83,12 @@ const ProfileView = () => {
       </Box>
     );
   }
+  console.log("base_url", BASE_URL);
+  // const profileImage = user.profileImage
+  //   ? `${BASE_URL}/${user.profileImage}`
+  //   : profileFallback;
 
-  const profileImage = user.profileImage
-    ? `${BASE_URL}/${user.profileImage}`
-    : profileFallback;
+  const profileImage = profileFallback;
 
   return (
     <Box
@@ -145,7 +147,7 @@ const ProfileView = () => {
           >
             {user.email}
           </Typography>
-          {user.role && (
+          {/* {user.role && (
             <Box sx={{ mb: 3, textAlign: "center" }}>
               <Typography variant="body2" color="text.secondary">
                 Role: {user.role.name}
@@ -154,11 +156,11 @@ const ProfileView = () => {
                 Permissions: {user.role.permission?.length || 0}
               </Typography>
             </Box>
-          )}
+          )} */}
           <Typography variant="body2" align="center" color="text.secondary">
             Joined on: {new Date(user.createdAt).toLocaleDateString()}
           </Typography>
-          {/* <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
             <Button
               variant="outlined"
               onClick={() => setShowPasswordForm(true)}
@@ -178,7 +180,7 @@ const ProfileView = () => {
             >
               Change Password
             </Button>
-          </Box> */}
+          </Box>
         </CardContent>
       </Card>
 

@@ -1,35 +1,24 @@
 /**
  * ViewUserLog.jsx
- * Enhanced user log view:
- * - Renders user details, updated by, and change history
- * - Handles 'public' prefix in image paths and falls back to /defaultUser.jpg
- * - Formats dates and displays changes including image paths
- * Assumptions: images under public are served from root (Vite default).
+ * Enhanced user log view
  */
+
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { motion } from "framer-motion";
 import Loader from "../../compoents/Loader";
 import Breaker from "../../compoents/Breaker";
 import toast from "react-hot-toast";
 import { getUserLogByIdApi } from "../../Services/UserApi";
-import PersonIcon from "@mui/icons-material/Person";
-import EmailIcon from "@mui/icons-material/Email";
-import PhoneIcon from "@mui/icons-material/Phone";
-import ImageIcon from "@mui/icons-material/Image";
 import HistoryIcon from "@mui/icons-material/History";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import Chip from "@mui/material/Chip";
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export default function ViewUserLog() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
+
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -38,12 +27,11 @@ export default function ViewUserLog() {
       const result = await getUserLogByIdApi(id);
       if (result?.status) {
         toast.success(result.message || "User log fetched successfully!");
-        setData(result.data);
+        setData(result.data); // ✅ result.data is an ARRAY
       } else {
         toast.error(result?.message || "Failed to fetch user log.");
       }
     } catch (error) {
-      console.error("Error fetching user log:", error);
       toast.error("Error fetching user log.");
     } finally {
       setLoading(false);
@@ -62,10 +50,6 @@ export default function ViewUserLog() {
     });
   }, []);
 
-  const handleBackClick = () => {
-    navigate(-1);
-  };
-
   if (loading) return <Loader />;
 
   if (!data) {
@@ -78,163 +62,151 @@ export default function ViewUserLog() {
     );
   }
 
-  const getImageUrl = (path) => {
-    if (!path) return "/defaultUser.jpg"; // fallback in public
-    // stored paths include 'public' prefix; remove it for Vite public dir
-    return path.startsWith("public") ? path.replace(/^public/, "") : path;
-  };
-
-  const StatusChip = ({ status }) => {
-    const color = status
-      ? "bg-green-200 text-green-800"
-      : "bg-red-200 text-red-800";
-    return (
-      <span className={`px-3 py-1 rounded-full font-semibold text-sm `}>
-        {/* {status ? "Success" : "Failed"} */}
-      </span>
-    );
-  };
-
-  const InfoRow = ({ IconComp, title, value }) => (
-    <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-      {IconComp && <IconComp sx={{ fontSize: 24, color: "#1F4926" }} />}
-      <div>
-        <p className="font-semibold text-gray-800 text-lg">{title}</p>
-        <p className="text-gray-600">{value ?? "N/A"}</p>
-      </div>
-    </div>
-  );
-
+  // Small Card Component for Changes
   const ChangeRow = ({ field, oldValue, newValue }) => {
+    const isImageField = field === "profileImage";
+
+    const getImage = (path) => {
+      if (!path) return "/defaultUser.jpg";
+      return path.startsWith("public") ? path.replace(/^public/, "") : path;
+    };
+
     const formatValue = (val) => {
-      if (val === undefined) return "N/A";
-      if (Array.isArray(val)) {
-        return val.length > 0 ? val.join(", ") : "None";
-      }
+      if (val === undefined || val === null) return "N/A";
+      if (Array.isArray(val)) return val.length > 0 ? val.join(", ") : "None";
       return String(val);
     };
 
     return (
-      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-        <p className="font-medium text-gray-800 capitalize">{field}</p>
-        <div className="text-right">
-          <p className="text-sm text-gray-600">Old: {formatValue(oldValue)}</p>
-          <p className="text-sm font-semibold text-gray-900">
-            New: {formatValue(newValue)}
-          </p>
+      <div className="bg-gray-50 rounded p-1 text-xs">
+        <div className="mb-1">
+          <h4 className="text-xs font-medium text-gray-600 capitalize truncate">
+            {field}
+          </h4>
         </div>
+
+        {isImageField ? (
+          <div className="space-y-1">
+            <div className="flex justify-center">
+              <img
+                src={getImage(oldValue)}
+                alt="Old"
+                className="w-6 h-6 object-cover rounded"
+              />
+            </div>
+            <div className="text-center text-xs text-gray-400">↓</div>
+            <div className="flex justify-center">
+              <img
+                src={getImage(newValue)}
+                alt="New"
+                className="w-6 h-6 object-cover rounded"
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-1">
+            <div className="px-1 py-0.5 rounded text-xs">
+              <div className="text-gray-500 text-xs">Old:</div>
+              <div className="text-gray-700 truncate">
+                {formatValue(oldValue)}
+              </div>
+            </div>
+            <div className="px-1 py-0.5 rounded text-xs">
+              <div className="text-gray-500 text-xs">New:</div>
+              <div className="text-gray-700 truncate">
+                {formatValue(newValue)}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
 
   return (
-    <div className="p-8 bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen">
+    <div className="p-6 bg-gray-50 min-h-screen">
       <Breaker />
-      <div
-        className="mx-auto max-w-9xl rounded-2xl shadow-2xl bg-gradient-to-br mt-5 from-white to-gray-50 overflow-hidden relative before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-2 before:bg-gradient-to-r before:from-[#45d85e] before:to-[#1F4926]"
-        data-aos="zoom-in"
-      >
-        <div className="flex justify-between items-center mb-8 pb-6 border-b-2 border-gray-200 px-6 pt-6">
-          <div>
-            <h1 className="text-3xl font-bold text-[#1F4926] tracking-wide">
-              User Log #{String(data._id).slice(-6)}
-            </h1>
-            <p className="text-sm text-gray-500 mt-1">
-              Updated:{" "}
-              {data.updatedAt ? new Date(data.updatedAt).toLocaleString() : "-"}
-            </p>
-          </div>
-          <div className="flex items-center gap-4">
-            <StatusChip status={data.status} />
-            <motion.div whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.05 }}>
-              <button
-                onClick={handleBackClick}
-                className="bg-gradient-to-r from-[#45d85e] to-[#1F4926] text-white px-5 py-2 rounded-xl font-semibold hover:from-[#3cc752] hover:to-[#1a3b20] hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
-              >
-                Back
-              </button>
-            </motion.div>
+
+      <div className="max-w-5xl mx-auto mt-6">
+        {/* Header Card */}
+        <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">
+                User Change History
+              </h1>
+              <p className="text-gray-600 mt-1">
+                View all modifications made to user data
+              </p>
+            </div>
+            <button
+              onClick={() => navigate(-1)}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
+            >
+              ← Back
+            </button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-6 pb-6">
-          {/* Left: User Details */}
-          <div className="col-span-1 bg-white p-4 rounded-xl shadow-md">
-            <div className="flex flex-col items-center text-center gap-3">
-              {/* <img
-                src={`${BASE_URL}/${data.user?.profileImage}`}
-                alt={data.user?.name || "User"}
-                // onError={(e) => (e.target.src = "/defaultUser.jpg")}
-                className="w-28 h-28 object-cover rounded-full shadow-sm"
-              /> */}
-              <h3 className="text-xl font-bold text-gray-800">User Details</h3>
-              <div className="w-full mt-3 space-y-3">
-                <InfoRow
-                  IconComp={PersonIcon}
-                  title="Name"
-                  value={data.user?.name || "-"}
-                />
-                <InfoRow
-                  IconComp={EmailIcon}
-                  title="Email"
-                  value={data.user?.email || "-"}
-                />
-                <InfoRow
-                  IconComp={PhoneIcon}
-                  title="Mobile"
-                  value={data.user?.mobile || "-"}
-                />
-                <InfoRow
-                  IconComp={ImageIcon}
-                  title="User ID"
-                  value={data.user?._id?.slice(-6) || "-"}
-                />
-              </div>
-            </div>
-          </div>
+        {/* Log Cards */}
+        <div className="space-y-4">
+          {Array.isArray(data) && data.length > 0 ? (
+            data.map((log, index) => (
+              <div
+                key={log?._id}
+                className="bg-white rounded-lg shadow-sm border p-6"
+              >
+                {/* Log Header */}
+                <div className="flex justify-between items-start mb-4 pb-3 border-b">
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {index + 1}
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      User:{" "}
+                      <span className="font-medium">{log?.user?.name}</span>
+                      {/* ({log?.user?.email}) */}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      Updated by:{" "}
+                      <span className="font-medium">
+                        {log?.updatedBy?.name}
+                      </span>
+                    </p>
+                  </div>
+                  <span className="text-sm text-gray-500 bg-white border px-3 py-1 rounded-full">
+                    {log?.updatedAt
+                      ? new Date(log.updatedAt).toLocaleString()
+                      : "N/A"}
+                  </span>
+                </div>
 
-          {/* Middle: Updated By and Changes */}
-          <div className="col-span-1 md:col-span-2 space-y-4">
-            <div className="bg-white rounded-xl p-4 shadow-md">
-              <h2 className="flex items-center gap-3 text-xl font-bold text-[#1F4926] mb-3">
-                <PersonIcon sx={{ fontSize: 24, color: "#45d85e" }} />
-                Updated By
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <InfoRow
-                  IconComp={PersonIcon}
-                  title="Name"
-                  value={data.updatedBy?.name || "-"}
-                />
-                <InfoRow
-                  IconComp={EmailIcon}
-                  title="Email"
-                  value={data.updatedBy?.email || "-"}
-                />
+                {/* Changes Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {Array.isArray(log?.changes) && log.changes.length > 0 ? (
+                    log.changes.map((change) => (
+                      <ChangeRow
+                        key={change?._id}
+                        field={change?.field}
+                        oldValue={change?.oldValue}
+                        newValue={change?.newValue}
+                      />
+                    ))
+                  ) : (
+                    <div className="col-span-full text-center py-8">
+                      <p className="text-gray-500">
+                        No changes recorded for this log
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
+            ))
+          ) : (
+            <div className="bg-white rounded-lg shadow-sm border p-8 text-center">
+              <p className="text-gray-500 text-lg">No logs found</p>
             </div>
-
-            <div className="bg-white rounded-xl p-4 shadow-md">
-              <h2 className="flex items-center gap-3 text-xl font-bold text-[#1F4926] mb-3">
-                <HistoryIcon sx={{ fontSize: 24, color: "#45d85e" }} />
-                Change History
-              </h2>
-              <div className="space-y-3">
-                {Array.isArray(data.changes) && data.changes.length > 0 ? (
-                  data.changes.map((change, i) => (
-                    <ChangeRow
-                      key={change._id}
-                      field={change.field}
-                      oldValue={change.oldValue}
-                      newValue={change.newValue}
-                    />
-                  ))
-                ) : (
-                  <p className="text-gray-600">No changes recorded</p>
-                )}
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
